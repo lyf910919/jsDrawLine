@@ -3,6 +3,7 @@ var context = canvas.getContext("2d");
 var isMouseDown = false;
 var mouseX = 0;
 var mouseY = 0;
+var track = [];
 
 context.strokeStyle = "#000000"; // drawing black lines.
 
@@ -14,27 +15,53 @@ context.fillRect(0,0,canvas.width,canvas.height);
 canvas.addEventListener("mousedown",function (evt) {
     isMouseDown = true;
 
-    mouseX = evt.clientX;
-    mouseY = evt.clientY;
-    // alert("coordinates" + evt.clientX + ", " + evt.clientY);
+    if (evt.x != undefined && evt.y != undefined)
+    {
+        mouseX = evt.x;
+        mouseY = evt.y;
+    }
+    else
+    {
+        mouseX = evt.layerX;
+        mouseY = evt.layerY;
+    }
+    mouseX -= canvas.offsetLeft;
+    mouseY -= canvas.offsetTop;
+    //alert("coordinates" + evt.layerX - canvas.offsetLeft - canvas.offsetLeft + ", " + evt.layerY - canvas.offsetTop);
 
     context.beginPath();
     context.moveTo(mouseX, mouseY);
+    track = [];
+    track.push(mouseX, mouseY);
 });
 
 // when the user lifts their mouse up anywhere on the screen.
 window.addEventListener("mouseup",function (evt) {
+    if (isMouseDown)
+        alert(track.join(' '));
     isMouseDown = false;
+    
 });
 
 // as the user moves the mouse around.
 canvas.addEventListener("mousemove",function (evt) {
     if (isMouseDown) {
-        mouseX = evt.clientX;
-        mouseY = evt.clientY;
+        if (evt.x != undefined && evt.y != undefined)
+        {
+            mouseX = evt.x;
+            mouseY = evt.y;
+        }
+        else
+        {
+            mouseX = evt.layerX;
+            mouseY = evt.layerY;
+        }
+        mouseX -= canvas.offsetLeft;
+        mouseY -= canvas.offsetTop;
 
         context.lineTo(mouseX, mouseY);
         context.stroke();
+        track.push(mouseX, mouseY);
     }
 });
 
