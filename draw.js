@@ -98,7 +98,7 @@ clearBtn.addEventListener("click",function(evt) {
 });
 
 // when the save button is clicked
-var saveBtn = document.getElementById("save");
+var saveBtn = document.getElementById("save_image");
 saveBtn.addEventListener("click",function (evt) {
     // we'll save using the new HTML5 download attribute to save the image. 
     // we'll give the image a name of draw-[timestamp].jpg
@@ -112,4 +112,9 @@ saveBtn.addEventListener("click",function (evt) {
 
     // in older browsers you may need to substitute those last two lines of code with this:
     // window.open(dataUri,"_blank");
+});
+
+var saveBtn2 = document.getElementById("save_track");
+saveBtn2.addEventListener("click", function (evt) {
+    window.open('data:text/txt;charset=utf-8,' + encodeURIComponent(track.join(' ')));
 });
