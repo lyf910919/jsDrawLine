@@ -4,6 +4,7 @@ var isMouseDown = false;
 var mouseX = 0;
 var mouseY = 0;
 var track = [];
+var strokes = [];
 
 context.strokeStyle = "#000000"; // drawing black lines.
 
@@ -37,8 +38,12 @@ canvas.addEventListener("mousedown",function (evt) {
 
 // when the user lifts their mouse up anywhere on the screen.
 window.addEventListener("mouseup",function (evt) {
-    if (isMouseDown)
+    if (isMouseDown){
         alert(track.join(' '));
+        strokes.push(track);
+        track = [];
+    }
+        
     isMouseDown = false;
     
 });
@@ -95,6 +100,7 @@ clearBtn.addEventListener("click",function(evt) {
     // make sure the canvas' background is actually white for saving.
     context.fillStyle = "#ffffff";
     context.fillRect(0,0,canvas.width,canvas.height);
+    strokes = [];
 });
 
 // when the save button is clicked
@@ -116,5 +122,10 @@ saveBtn.addEventListener("click",function (evt) {
 
 var saveBtn2 = document.getElementById("save_track");
 saveBtn2.addEventListener("click", function (evt) {
-    window.open('data:text/txt;charset=utf-8,' + encodeURIComponent(track.join(' ')));
+    var output = [];
+    var i = 0;
+    for (i = 0; i < strokes.length; ++i){
+        output.push(strokes[i].join(" "));
+    }
+    window.open('data:text/txt;charset=utf-8,' + encodeURIComponent(output.join("\n")));
 });
