@@ -39,7 +39,7 @@ canvas.addEventListener("mousedown",function (evt) {
 // when the user lifts their mouse up anywhere on the screen.
 window.addEventListener("mouseup",function (evt) {
     if (isMouseDown){
-        alert(track.join(' '));
+        //alert(track.join(' '));
         strokes.push(track);
         track = [];
     }
@@ -71,26 +71,26 @@ canvas.addEventListener("mousemove",function (evt) {
 });
 
 // swatch interactivity
-var palette = document.getElementById("palette");
-var swatches = palette.children;
-var currentSwatch; // we'll keep track of what swatch is active in this.
+// var palette = document.getElementById("palette");
+// var swatches = palette.children;
+// var currentSwatch; // we'll keep track of what swatch is active in this.
 
-for (var i = 0; i < swatches.length; i++) {
-    var swatch = swatches[i];
-    if (i == 0) {
-        currentSwatch = swatch;
-    }
+// for (var i = 0; i < swatches.length; i++) {
+//     var swatch = swatches[i];
+//     if (i == 0) {
+//         currentSwatch = swatch;
+//     }
 
-    // when we click on a swatch...
-    swatch.addEventListener("click",function (evt) {
+//     // when we click on a swatch...
+//     swatch.addEventListener("click",function (evt) {
 
-        this.className = "active"; // give the swatch a class of "active", which will trigger the CSS border.
-        currentSwatch.className = ""; // remove the "active" class from the previously selected swatch
-        currentSwatch = this; // set this to the current swatch so next time we'll take "active" off of this.
+//         this.className = "active"; // give the swatch a class of "active", which will trigger the CSS border.
+//         currentSwatch.className = ""; // remove the "active" class from the previously selected swatch
+//         currentSwatch = this; // set this to the current swatch so next time we'll take "active" off of this.
 
-        context.strokeStyle = this.style.backgroundColor; // set the background color for the canvas.
-    });
-}
+//         context.strokeStyle = this.style.backgroundColor; // set the background color for the canvas.
+//     });
+// }
 
 // when the clear button is clicked
 var clearBtn = document.getElementById("clear");
@@ -103,7 +103,7 @@ clearBtn.addEventListener("click",function(evt) {
     strokes = [];
 });
 
-// when the save button is clicked
+// when the save image button is clicked
 var saveBtn = document.getElementById("save_image");
 saveBtn.addEventListener("click",function (evt) {
     // we'll save using the new HTML5 download attribute to save the image. 
@@ -120,6 +120,7 @@ saveBtn.addEventListener("click",function (evt) {
     // window.open(dataUri,"_blank");
 });
 
+// when the save track button is clicked
 var saveBtn2 = document.getElementById("save_track");
 saveBtn2.addEventListener("click", function (evt) {
     var output = [];
@@ -127,5 +128,12 @@ saveBtn2.addEventListener("click", function (evt) {
     for (i = 0; i < strokes.length; ++i){
         output.push(strokes[i].join(" "));
     }
-    window.open('data:text/txt;charset=utf-8,' + encodeURIComponent(output.join("\n")));
+    var blob = new Blob([output.join("\n")], {type: 'text/plain'});
+    //saveAs(blob, 'filename.txt')
+    var url = window.URL.createObjectURL(blob);
+    saveBtn2.href = url;
+    saveBtn2.setAttribute('download', 'fuckyou.txt');
+//    window.open('data:text/txt;charset=utf-8,' + encodeURIComponent(output.join("\n")));
+//    window.URL.revokeObjectURL(url);
+
 });
