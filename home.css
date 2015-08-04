@@ -27,6 +27,15 @@ li.active {
     border:2px solid #666;
 }
 */
+
+select {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    display: block;
+    width: 100px;
+}
+
 a, a:hover {
     margin-top:10px;
     margin-left: auto;

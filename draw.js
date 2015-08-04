@@ -5,6 +5,8 @@ var mouseX = 0;
 var mouseY = 0;
 var track = [];
 var strokes = [];
+var startTime = 0;
+var maxMusicNum = 10;
 
 context.strokeStyle = "#000000"; // drawing black lines.
 
@@ -33,7 +35,8 @@ canvas.addEventListener("mousedown",function (evt) {
     context.beginPath();
     context.moveTo(mouseX, mouseY);
     track = [];
-    track.push(mouseX, mouseY);
+    startTime = Date.now()
+    track.push(mouseX, mouseY, 0);
 });
 
 // when the user lifts their mouse up anywhere on the screen.
@@ -66,7 +69,7 @@ canvas.addEventListener("mousemove",function (evt) {
 
         context.lineTo(mouseX, mouseY);
         context.stroke();
-        track.push(mouseX, mouseY);
+        track.push(mouseX, mouseY, Date.now() - startTime);
     }
 });
 
@@ -91,6 +94,19 @@ canvas.addEventListener("mousemove",function (evt) {
 //         context.strokeStyle = this.style.backgroundColor; // set the background color for the canvas.
 //     });
 // }
+
+//select music number
+var musicNum = document.getElementById("music_number");
+var opt = 1;
+var option;
+for (opt = 1; opt < maxMusicNum; ++opt) {
+    option = document.createElement('option');
+    option.setAttribute('value', opt.toString());
+    option.innerText = opt.toString();
+    option.textContent = opt.toString();
+    //alert(option.getAttribute('value'));
+    musicNum.appendChild(option);
+}
 
 // when the clear button is clicked
 var clearBtn = document.getElementById("clear");
