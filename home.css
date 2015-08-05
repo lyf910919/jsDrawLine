@@ -28,12 +28,12 @@ li.active {
 }
 */
 
-select {
+div {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     display: block;
-    width: 100px;
+    width: 200px;
 }
 
 a, a:hover {

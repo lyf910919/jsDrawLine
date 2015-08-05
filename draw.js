@@ -95,7 +95,7 @@ canvas.addEventListener("mousemove",function (evt) {
 //     });
 // }
 
-//select music number
+//initiate music number selection
 var musicNum = document.getElementById("music_number");
 var opt = 1;
 var option;
@@ -107,6 +107,7 @@ for (opt = 1; opt < maxMusicNum; ++opt) {
     //alert(option.getAttribute('value'));
     musicNum.appendChild(option);
 }
+
 
 // when the clear button is clicked
 var clearBtn = document.getElementById("clear");
@@ -148,7 +149,10 @@ saveBtn2.addEventListener("click", function (evt) {
     //saveAs(blob, 'filename.txt')
     var url = window.URL.createObjectURL(blob);
     saveBtn2.href = url;
-    saveBtn2.setAttribute('download', 'fuckyou.txt');
+
+    //set file name to the music selected
+    var fileName = musicNum.value + '.txt';
+    saveBtn2.setAttribute('download', fileName);
 //    window.open('data:text/txt;charset=utf-8,' + encodeURIComponent(output.join("\n")));
 //    window.URL.revokeObjectURL(url);
 
