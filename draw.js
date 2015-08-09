@@ -15,7 +15,8 @@ context.fillStyle = "#ffffff";
 context.fillRect(0,0,canvas.width,canvas.height);
 
 // when the user presses their mouse down on the canvas.
-canvas.addEventListener("mousedown",function (evt) {
+function downDraw(evt) {
+        
     isMouseDown = true;
 
     if (evt.x != undefined && evt.y != undefined)
@@ -25,8 +26,8 @@ canvas.addEventListener("mousedown",function (evt) {
     }
     else
     {
-        mouseX = evt.layerX;
-        mouseY = evt.layerY;
+        mouseX = evt.pageX;
+        mouseY = evt.pageY;
     }
     mouseX -= canvas.offsetLeft;
     mouseY -= canvas.offsetTop;
@@ -37,10 +38,13 @@ canvas.addEventListener("mousedown",function (evt) {
     track = [];
     startTime = Date.now()
     track.push(mouseX, mouseY, 0);
-});
+}
+
+canvas.addEventListener("mousedown", downDraw);
+canvas.addEventListener("touchstart", downDraw);
 
 // when the user lifts their mouse up anywhere on the screen.
-window.addEventListener("mouseup",function (evt) {
+function upDraw(evt) {
     if (isMouseDown){
         //alert(track.join(' '));
         strokes.push(track);
@@ -49,10 +53,12 @@ window.addEventListener("mouseup",function (evt) {
         
     isMouseDown = false;
     
-});
+}
+window.addEventListener("mouseup", upDraw);
+window.addEventListener("touchend", upDraw);
 
 // as the user moves the mouse around.
-canvas.addEventListener("mousemove",function (evt) {
+function moveDraw(evt) {
     if (isMouseDown) {
         if (evt.x != undefined && evt.y != undefined)
         {
@@ -61,8 +67,8 @@ canvas.addEventListener("mousemove",function (evt) {
         }
         else
         {
-            mouseX = evt.layerX;
-            mouseY = evt.layerY;
+            mouseX = evt.pageX;
+            mouseY = evt.pageY;
         }
         mouseX -= canvas.offsetLeft;
         mouseY -= canvas.offsetTop;
@@ -71,7 +77,9 @@ canvas.addEventListener("mousemove",function (evt) {
         context.stroke();
         track.push(mouseX, mouseY, Date.now() - startTime);
     }
-});
+}
+canvas.addEventListener("mousemove", moveDraw);
+canvas.addEventListener("touchmove", moveDraw);
 
 // swatch interactivity
 // var palette = document.getElementById("palette");
@@ -130,7 +138,8 @@ saveBtn.addEventListener("click",function (evt) {
     var dataUri = canvas.toDataURL("image/jpeg");  // get the canvas data as a JPG.
 
     // change the a href and download attributes so it'll save.
-    this.setAttribute("download","drawing-" + now + ".jpg");
+    var fileName = musicNum.value + '.jpg';
+    this.setAttribute("download", fileName);
     this.setAttribute("href",dataUri);
 
     // in older browsers you may need to substitute those last two lines of code with this:
