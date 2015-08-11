@@ -8,6 +8,8 @@ canvas {
 audio {
     margin-left: auto;
     margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
     display: block;
 }
 /*ul {
@@ -38,20 +40,37 @@ div {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
-    display: block;
-    width: 200px;
+    width: 450px;
 }
 
-a, a:hover {
-    margin-top:10px;
+div span{
+    width: 110px;
+    display: inline-block;
+}
+
+#music_number{
+    width: 50px;
+}
+
+#music_selection_div{
     margin-left: auto;
     margin-right: auto;
-    font-family:Arial, sans-serif;
-    display:block;
-    width:220px;
-    padding:5px 10px;
+    margin-top: 10px;
+    width: 170px;
+}
+
+a {
+/*    margin-top:10px;*/
+    margin-left: 10px;
+    margin-right: 10px;    
+    display: inline-block;
+    position: relative;
+    width:200px;
+    /*padding:5px 10px;*/
+
     background:#3d6aa2;
     color:white;
+    font-family:Arial, sans-serif;
     text-decoration:none;
     font-size:2em;
     text-align:center;
