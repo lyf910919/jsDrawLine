@@ -14,6 +14,10 @@ context.strokeStyle = "#000000"; // drawing black lines.
 context.fillStyle = "#ffffff";
 context.fillRect(0,0,canvas.width,canvas.height);
 
+//load music
+// var player = document.getElementById("player");
+// player.src = "music/1.mp3";
+
 // when the user presses their mouse down on the canvas.
 function downDraw(evt) {
         
@@ -166,3 +170,16 @@ saveBtn2.addEventListener("click", function (evt) {
 //    window.URL.revokeObjectURL(url);
 
 });
+
+function send(){
+    alert('submit drawing data!');
+    $.ajax({
+        type: "post",
+        url: "http://localhost:8080/sendDrawData",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: JSON.stringify({music: option})
+    }).done(function(data){
+        alert("ajax callback response:" + data);
+    });
+}
