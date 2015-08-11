@@ -26,7 +26,7 @@ var server = http.createServer(function(req, res) {
 		});
 	}
 	else if (path.length > 0){
-		fs.readFile(path.substr(1), 'utf-8', function(err, data) {
+		fs.readFile(path.substr(1), function(err, data) {
 			if (err) {
 				console.error(err);
 			}
