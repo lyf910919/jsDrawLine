@@ -1,3 +1,8 @@
+body { 
+        background-image: url("bg-image/2.jpg"); 
+        background-size: cover;
+}
+
 canvas {
     border:5px solid black;
     margin-left:auto;
@@ -5,73 +10,53 @@ canvas {
     display: block;
 }
 
-audio {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: block;
-}
-/*ul {
-    list-style-type:none;
-    margin: 0;
-    padding:0;
-    border:0;
-    height:30px;
-    position: relative;
-    left: 40%;
-}
-li {
-    margin:0;
-    padding:0;
-    border:2px solid white;
-    display:block;
-    float:left;
-    width:30px;
-    height:30px;
-    cursor:pointer;
-}
-li.active {
-    border:2px solid #666;
-}
-*/
 
-div {
+.buttons {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     width: 450px;
 }
 
-div span{
-    width: 110px;
-    display: inline-block;
+#music_player{
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    max-height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
 }
 
 #music_number{
-    width: 50px;
-}
-
-#music_selection_div{
+    /*width: 150px;*/
     margin-left: auto;
     margin-right: auto;
-    margin-top: 10px;
-    width: 170px;
+    /*margin-top: 10px;*/
+    /*margin-bottom: 10px;*/
+    display: inline-block;
+    text-align: center;
+}
+
+audio {
+    margin-left: auto;
+    margin-right: auto;
+    /*margin-top: 10px;
+    margin-bottom: 10px;*/
+    display: inline-block;
 }
 
 a {
-/*    margin-top:10px;*/
     margin-left: 10px;
     margin-right: 10px;    
     display: inline-block;
     position: relative;
     width:200px;
-    /*padding:5px 10px;*/
-
-    background:#3d6aa2;
-    color:white;
-    font-family:Arial, sans-serif;
-    text-decoration:none;
-    font-size:2em;
-    text-align:center;
 }
+
+#manu {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+

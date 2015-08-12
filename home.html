@@ -1,42 +1,36 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link href = "home.css" rel = "stylesheet" type="text/css" ></style>
 		<meta charset="utf-8">
-		<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+		<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 	</head>
 	<body>
 		
-		<canvas id="drawingPad" width="512px" height="512px"></canvas>
+		<canvas id="drawingPad" width="800px" height="480px"></canvas>
 
-		<audio id = "player" src="music/1.mp3" type="audio/mpeg" controls>
-			你的浏览器不支持HTML5音乐播放，请使用IE9、Firefox3.5、Opera10.5、Chrome3.0或Safari3.0浏览器</audio>
-
-<!-- 		<ul id="palette">
-		    <li class="active" style="background:#000000"></li>
-		    <li style="background:#ff0000"></li>
-		    <li style="background:#00ff00"></li>
-		    <li style="background:#0000ff"></li>
-		    <li style="background:#ffff00"></li>
-		    <li style="background:#ff00ff"></li>
-		    <li style="background:#00ffff"></li>
-		</ul>
- -->
- 		<div id = "music_selection_div">
- 			<span>Music Number:</span>
- 			<select id="music_number">
-
- 			</select>
- 		</div>
+		<div id="music_player">
+			<div id="music_number">Music Playing: 1/10</div>
+			<audio id = "player" src="music/1.mp3" type="audio/mpeg" controls>
+				你的浏览器不支持HTML5音乐播放，请使用IE9、Firefox3.5、Opera10.5、Chrome3.0或Safari3.0浏览器</audio>
+		</div>
  		
- 		<div id = "clear_submit">
- 			<a href="#" id="clear">Clear</a>
- 			<a href="#" id="submit" onclick="send()">Next Music</a>
+ 		<div id = "clear_submit" class="buttons">
+ 			<a type="button" class="btn btn-primary btn-lg" href="#" id="clear">Clear</a>
+ 			<a type="button" class="btn btn-primary btn-lg" href="#" id="next_music" onclick="send()">Next Music</a>
  		</div>
 		
-		<div id = "save">
-			<a href="#" id="save_image" download="drawing.png" target="_blank">Save Image</a>
-			<a href="#" id="save_track" download="track.txt" target="_blank">Save Track</a>
+		<div id = "save" class="buttons">
+			<a type="button" class="btn btn-success btn-lg" href="#" id="save_image" download="drawing.png" target="_blank">Save Image</a>
+			<a type="button" class="btn btn-success btn-lg" href="#" id="save_track" download="track.txt" target="_blank">Save Track</a>
+		</div>
+
+		<div id="manu" class="bg-warning">
+			<h3>使用说明</h3>
+			<p>播放歌曲，听完后根据听歌时的感受在白色区域任意画线，但必须一笔画完，曲线的变化要能够反映你听歌时的感受。完成后，点击Next Music，听下一首歌，重复上述步骤，共10首歌。最后一首歌放完后点击done，即完成。感谢参与！</p>
 		</div>
 	</body>
 

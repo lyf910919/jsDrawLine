@@ -7,6 +7,7 @@ var track = [];
 var strokes = [];
 var startTime = 0;
 var maxMusicNum = 10;
+var curMusicNum = 1;
 
 context.strokeStyle = "#000000"; // drawing black lines.
 
@@ -14,9 +15,57 @@ context.strokeStyle = "#000000"; // drawing black lines.
 context.fillStyle = "#ffffff";
 context.fillRect(0,0,canvas.width,canvas.height);
 
-//load music
-// var player = document.getElementById("player");
-// player.src = "music/1.mp3";
+//set first music
+var player = document.getElementById("player");
+player.setAttribute("src", "music/"+curMusicNum+".mp3");
+var musicNumber = document.getElementById("music_number");
+musicNumber.innerText="Music Playing: 1/10";
+musicNumber.textContent="Music Playing: 1/10";
+
+function packData() {
+    var output = [];
+    var i = 0;
+    for (i = 0; i < strokes.length; ++i){
+        output.push(strokes[i].join(" "));
+    }
+    output = output.join("\n");
+    var imgData = canvas.toDataURL("image/jpeg");
+    var data = {
+        strokes: output,
+        img: imgData,
+        musicNumber: curMusicNum
+    }
+    return data;
+}
+
+//when next music button clicked
+function send(){
+    alert('comming to next music!');
+    //save tracks
+    var userData = packData();
+    $.ajax({
+        type: "post",
+        url: "http://localhost:8080/sendDrawData",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: JSON.stringify(userData)
+    }).done(function(data){
+        alert("ajax callback response:" + data);
+    });
+    curMusicNum = curMusicNum + 1;
+    if (curMusicNum === maxMusicNum) {
+        var btn = document.getElementById("next_music");
+        btn.innerText="Done";
+        btn.textContent="Done";
+    }
+    player.setAttribute("src", "music/"+curMusicNum+".mp3");
+    musicNumber.innerText="Music Playing: "+curMusicNum+"/"+maxMusicNum;
+    musicNumber.textContent="Music Playing: "+curMusicNum+"/"+maxMusicNum;
+    context.fillRect(0,0,canvas.width,canvas.height);
+    strokes = [];
+
+}
+
 
 // when the user presses their mouse down on the canvas.
 function downDraw(evt) {
@@ -85,41 +134,6 @@ function moveDraw(evt) {
 canvas.addEventListener("mousemove", moveDraw);
 canvas.addEventListener("touchmove", moveDraw);
 
-// swatch interactivity
-// var palette = document.getElementById("palette");
-// var swatches = palette.children;
-// var currentSwatch; // we'll keep track of what swatch is active in this.
-
-// for (var i = 0; i < swatches.length; i++) {
-//     var swatch = swatches[i];
-//     if (i == 0) {
-//         currentSwatch = swatch;
-//     }
-
-//     // when we click on a swatch...
-//     swatch.addEventListener("click",function (evt) {
-
-//         this.className = "active"; // give the swatch a class of "active", which will trigger the CSS border.
-//         currentSwatch.className = ""; // remove the "active" class from the previously selected swatch
-//         currentSwatch = this; // set this to the current swatch so next time we'll take "active" off of this.
-
-//         context.strokeStyle = this.style.backgroundColor; // set the background color for the canvas.
-//     });
-// }
-
-//initiate music number selection
-var musicNum = document.getElementById("music_number");
-var opt = 1;
-var option;
-for (opt = 1; opt < maxMusicNum; ++opt) {
-    option = document.createElement('option');
-    option.setAttribute('value', opt.toString());
-    option.innerText = opt.toString();
-    option.textContent = opt.toString();
-    //alert(option.getAttribute('value'));
-    musicNum.appendChild(option);
-}
-
 
 // when the clear button is clicked
 var clearBtn = document.getElementById("clear");
@@ -142,7 +156,7 @@ saveBtn.addEventListener("click",function (evt) {
     var dataUri = canvas.toDataURL("image/jpeg");  // get the canvas data as a JPG.
 
     // change the a href and download attributes so it'll save.
-    var fileName = musicNum.value + '.jpg';
+    var fileName = curMusicNumber + '.jpg';
     this.setAttribute("download", fileName);
     this.setAttribute("href",dataUri);
 
@@ -171,15 +185,3 @@ saveBtn2.addEventListener("click", function (evt) {
 
 });
 
-function send(){
-    alert('submit drawing data!');
-    $.ajax({
-        type: "post",
-        url: "http://localhost:8080/sendDrawData",
-        dataType: "json",
-        contentType: "application/json; charset=UTF-8",
-        data: JSON.stringify({music: option})
-    }).done(function(data){
-        alert("ajax callback response:" + data);
-    });
-}

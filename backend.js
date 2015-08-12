@@ -13,8 +13,19 @@ var server = http.createServer(function(req, res) {
 		});
 		req.on('end', function(){
 			store = JSON.parse(store);
-			console.log(store);
+			//console.log(store);
 			res.end("received");
+			var musicNumber = store.musicNumber;
+			var strokes = store.strokes;
+			var img = store.img;
+			console.log(img);
+			//save image
+			var regex = /^data:.+\/(.+);base64,(.*)$/;
+			var matches = img.match(regex);
+			var ext = matches[1];
+			var data = matches[2];
+			var buffer = new Buffer(data, 'base64');
+			fs.writeFileSync('data.' + ext, buffer);
 		});
 	}
 	else if (path === '/') {
