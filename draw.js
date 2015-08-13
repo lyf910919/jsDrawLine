@@ -8,6 +8,7 @@ var strokes = [];
 var startTime = 0;
 var maxMusicNum = 10;
 var curMusicNum = 1;
+var userName = "";
 
 context.strokeStyle = "#000000"; // drawing black lines.
 
@@ -22,27 +23,60 @@ var musicNumber = document.getElementById("music_number");
 musicNumber.innerText="Music Playing: 1/10";
 musicNumber.textContent="Music Playing: 1/10";
 
+//when name input button clicked
+function saveName(evt) {
+    userName = document.getElementById("user_name").value;
+    if (userName === "") {
+        alert("请先输入你的名字，点击确定保存~~~");
+    }
+    else {
+        var uname = document.getElementById("name_input");
+        uname.setAttribute("class", "btn btn-primary btn-md disabled");
+    }
+}
+var nameInput = document.getElementById("name_input");
+nameInput.addEventListener("click", saveName);
+
+//pack data to be sent to server
 function packData() {
+    //store strokes
     var output = [];
     var i = 0;
     for (i = 0; i < strokes.length; ++i){
         output.push(strokes[i].join(" "));
     }
+
+    //make sure user name is not empty
+    if (userName === "") {
+        alert("请先输入你的名字，点击确定保存~~~");
+        return -1;
+    }
+
+    //store image
     output = output.join("\n");
     var imgData = canvas.toDataURL("image/jpeg");
     var data = {
         strokes: output,
         img: imgData,
-        musicNumber: curMusicNum
+        musicNumber: curMusicNum,
+        userName: userName
     }
     return data;
 }
 
 //when next music button clicked
 function send(){
+    if (curMusicNum == maxMusicNum) {
+        var nextMusic = document.getElementById("next_music");
+        nextMusic.setAttribute("class", "btn btn-primary btn-lg disabled");
+    }
     alert('comming to next music!');
     //save tracks
     var userData = packData();
+    if (userData === -1) {
+        return -1;
+    }
+
     $.ajax({
         type: "post",
         url: "http://localhost:8080/sendDrawData",

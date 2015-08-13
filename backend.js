@@ -18,14 +18,19 @@ var server = http.createServer(function(req, res) {
 			var musicNumber = store.musicNumber;
 			var strokes = store.strokes;
 			var img = store.img;
-			console.log(img);
+			var name = store.userName;
+			//console.log(img);
+
 			//save image
 			var regex = /^data:.+\/(.+);base64,(.*)$/;
 			var matches = img.match(regex);
 			var ext = matches[1];
 			var data = matches[2];
 			var buffer = new Buffer(data, 'base64');
-			fs.writeFileSync('data.' + ext, buffer);
+			fs.writeFileSync('img/'+name+'_'+musicNumber+'.'+ext, buffer);
+		
+			//save strokes
+			fs.writeFileSync('stroke/'+name+'_'+musicNumber+'.txt', strokes);
 		});
 	}
 	else if (path === '/') {
