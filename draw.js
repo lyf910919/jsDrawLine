@@ -73,13 +73,13 @@ function send(){
     alert('comming to next music!');
     //save tracks
     var userData = packData();
-    if (userData === -1) {
+	if (userData === -1) {
         return -1;
     }
 
     $.ajax({
         type: "post",
-        url: "http://localhost:8080/sendDrawData",
+        url: "http://cg.cs.tsinghua.edu.cn:9111/sendDrawData",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         data: JSON.stringify(userData)

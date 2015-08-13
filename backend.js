@@ -2,6 +2,16 @@ var http = require('http');
 var url = require('url');
 var path = require('path');
 var fs = require('fs');
+//redirect log
+var fs = require('fs');
+var util = require('util');
+var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
+var log_stdout = process.stdout;
+
+console.log = function(d) { //
+  log_file.write(util.format(d) + '\n');
+  log_stdout.write(util.format(d) + '\n');
+};
 
 var server = http.createServer(function(req, res) {
 	var path = url.parse(req.url).pathname;
@@ -11,6 +21,7 @@ var server = http.createServer(function(req, res) {
 		req.on('data', function(data) {
 			store += data;
 		});
+		
 		req.on('end', function(){
 			store = JSON.parse(store);
 			//console.log(store);
@@ -54,4 +65,4 @@ var server = http.createServer(function(req, res) {
 	}
 });
 
-server.listen('8080', '127.0.0.1');
+server.listen('9111', '166.111.68.30');
