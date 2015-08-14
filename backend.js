@@ -65,4 +65,4 @@ var server = http.createServer(function(req, res) {
 	}
 });
 
-server.listen('9111', '166.111.68.30');
+server.listen('9111', '127.0.0.1');

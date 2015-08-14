@@ -70,21 +70,25 @@ function send(){
         var nextMusic = document.getElementById("next_music");
         nextMusic.setAttribute("class", "btn btn-primary btn-lg disabled");
     }
-    alert('comming to next music!');
+    //alert('comming to next music!');
     //save tracks
     var userData = packData();
 	if (userData === -1) {
         return -1;
     }
-
+    //alert(JSON.stringify(userData));
     $.ajax({
-        type: "post",
-        url: "http://cg.cs.tsinghua.edu.cn:9111/sendDrawData",
+        type: "POST",
+        url: "saveJson.php",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
-        data: JSON.stringify(userData)
-    }).done(function(data){
-        alert("ajax callback response:" + data);
+        data: JSON.stringify(userData),
+        success: function(response) {
+            alert(response);
+        },
+        error: function(err) {
+            alert(err.responseText);
+        }
     });
     curMusicNum = curMusicNum + 1;
     if (curMusicNum === maxMusicNum) {
