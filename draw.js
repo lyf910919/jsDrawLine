@@ -6,9 +6,10 @@ var mouseY = 0;
 var track = [];
 var strokes = [];
 var startTime = 0;
-var maxMusicNum = 10;
+var maxMusicNum = 4;
 var curMusicNum = 1;
 var userName = "";
+var recommendInd = [];
 
 context.strokeStyle = "#000000"; // drawing black lines.
 
@@ -20,8 +21,8 @@ context.fillRect(0,0,canvas.width,canvas.height);
 var player = document.getElementById("player");
 player.setAttribute("src", "music/"+curMusicNum+".mp3");
 var musicNumber = document.getElementById("music_number");
-musicNumber.innerText="Music Playing: 1/10";
-musicNumber.textContent="Music Playing: 1/10";
+musicNumber.innerText="Music Playing: "+curMusicNum+"/"+maxMusicNum;
+musicNumber.textContent="Music Playing: "+curMusicNum+"/"+maxMusicNum;
 
 //when name input button clicked
 function saveName(evt) {
@@ -64,16 +65,10 @@ function packData() {
     return data;
 }
 
-//when next music button clicked
-function send(){
-    if (curMusicNum == maxMusicNum) {
-        var nextMusic = document.getElementById("next_music");
-        nextMusic.setAttribute("class", "btn btn-primary btn-lg disabled");
-    }
-    //alert('comming to next music!');
+function postData() {
     //save tracks
     var userData = packData();
-	if (userData === -1) {
+    if (userData === -1) {
         return -1;
     }
     //alert(JSON.stringify(userData));
@@ -85,23 +80,47 @@ function send(){
         data: JSON.stringify(userData),
         success: function(response) {
             alert(response);
+            recommendInd.push(response);
         },
         error: function(err) {
             alert(err.responseText);
         }
     });
-    curMusicNum = curMusicNum + 1;
-    if (curMusicNum === maxMusicNum) {
-        var btn = document.getElementById("next_music");
-        btn.innerText="Done";
-        btn.textContent="Done";
+}
+
+//when next music button clicked
+function send(){
+    var ret = postData();
+    if (ret === -1) {
+        return -1;
     }
-    player.setAttribute("src", "music/"+curMusicNum+".mp3");
-    musicNumber.innerText="Music Playing: "+curMusicNum+"/"+maxMusicNum;
-    musicNumber.textContent="Music Playing: "+curMusicNum+"/"+maxMusicNum;
+    curMusicNum = curMusicNum + 1;
+    if (curMusicNum === maxMusicNum+1) {
+        alert("请根据你想听的音乐划线，系统将为你推荐音乐");
+    }
+    if (curMusicNum <= maxMusicNum) {
+        player.setAttribute("src", "music/"+curMusicNum+".mp3");
+        musicNumber.innerText="Music Playing: "+curMusicNum+"/"+maxMusicNum;
+        musicNumber.textContent="Music Playing: "+curMusicNum+"/"+maxMusicNum;
+        if (curMusicNum === maxMusicNum) {
+            var btn = document.getElementById("next_music");
+            btn.innerText="Done";
+            btn.textContent="Done";
+        }
+    }
+    else if (curMusicNum > maxMusicNum + 1) {
+        var recommendation = document.getElementById("recommendation");
+        for (var i = 0; i < recommendInd.length; ++i) {
+            var newMusic = document.createElement("audio");
+            newMusic.setAttribute("src", "music/"+recommendInd[i]+".mp3");
+            newMusic.setAttribute("controls");
+            recommendation.appendChild(newMusic);
+        }
+    }
+
+    //clear canvas
     context.fillRect(0,0,canvas.width,canvas.height);
     strokes = [];
-
 }
 
 
